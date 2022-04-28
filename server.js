@@ -7,6 +7,7 @@ const cors        = require('cors');
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
+const helmet            = require('helmet');
 
 const app = express();
 
@@ -16,6 +17,14 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+    helmet({
+      referrerPolicy: {
+        policy: ["same-origin"]
+      }
+}));
+
 
 //Sample front-end
 app.route('/b/:board/')
@@ -58,7 +67,7 @@ const listener = app.listen(process.env.PORT || 3000, function () {
         console.log('Tests are not valid:');
         console.error(e);
       }
-    }, 1500);
+    }, 2500);
   }
 });
 
